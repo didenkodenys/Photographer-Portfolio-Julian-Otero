@@ -39,17 +39,7 @@ function loadProject(project) {
     currentIndex = 0; // Сброс индекса при загрузке нового проекта
     document.body.classList.add('project-page'); // Добавляем класс для страницы проекта
     changeBackgroundColor(); // Изменяем цвет фона
-    preloadImages(); // Предварительная загрузка изображений
-    updateImage(); // Обновляем изображение после загрузки
-}
-
-// Функция для предварительной загрузки изображений
-function preloadImages() {
-    const images = projectData[currentProject].images;
-    images.forEach((src) => {
-        const img = new Image(); // Создаем новый объект Image
-        img.src = src; // Устанавливаем источник изображения
-    });
+    updateImage(); // Обновляем изображение
 }
 
 // Функция для обновления изображения
@@ -58,23 +48,14 @@ function updateImage() {
     const images = projectData[currentProject].images;
 
     if (images.length > 0) {
-        const newImage = new Image(); // Создаем новый объект Image для загрузки
-        newImage.src = images[currentIndex]; // Устанавливаем источник изображения
-        newImage.alt = projectData[currentProject].title;
+        // Получаем src текущего изображения из массива
+        const imageSrc = images[currentIndex];
+        projectImage.src = imageSrc; // Устанавливаем новое изображение
+        projectImage.alt = projectData[currentProject].title; // Обновляем alt
 
-        // Скрываем текущее изображение до загрузки нового
-        projectImage.style.display = 'none'; // Скрываем текущее изображение
-
-        // Устанавливаем обработчик события загрузки
-        newImage.onload = () => {
-            projectImage.src = newImage.src; // Обновляем src на загруженное изображение
-            projectImage.alt = newImage.alt;
-            projectImage.style.display = 'block'; // Показываем изображение после загрузки
-
-            // Обновление нумерации изображения
-            const imageNumber = document.getElementById('image-number');
-            imageNumber.textContent = String(currentIndex + 1).padStart(3, '0'); // Форматирование номера (001, 002 и т.д.)
-        };
+        // Обновление нумерации изображения
+        const imageNumber = document.getElementById('image-number');
+        imageNumber.textContent = String(currentIndex + 1).padStart(3, '0'); // Форматирование номера (001, 002 и т.д.)
     }
 }
 

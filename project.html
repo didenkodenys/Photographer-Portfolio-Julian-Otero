@@ -13,11 +13,40 @@
         <img id="project-image" src="" alt="" />
         <div class="navigation">
             <span id="previous" class="nav-button">Previous</span>
-            <div id="image-number" class="image-number"></div>
+            <div id="image-number" class="image-number">001</div>
             <span id="next" class="nav-button">Next</span>
         </div>
 
+        <!-- Здесь загружаем все изображения, скрытые по умолчанию -->
+        <div id="image-gallery" style="display: none;">
+            <img class="gallery-image" src="images/image1.jpg" alt="Image 1" />
+            <img class="gallery-image" src="images/image2.jpg" alt="Image 2" />
+            <img class="gallery-image" src="images/image3.jpg" alt="Image 3" />
+            <img class="gallery-image" src="images/image4.jpg" alt="Image 4" />
+            <img class="gallery-image" src="images/image5.jpg" alt="Image 5" />
+            <img class="gallery-image" src="images/image6.jpg" alt="Image 6" />
+            <img class="gallery-image" src="images/image7.jpg" alt="Image 7" />
+            <img class="gallery-image" src="images/image8.jpg" alt="Image 8" />
+            <img class="gallery-image" src="images/image9.jpg" alt="Image 9" />
+            <img class="gallery-image" src="images/image10.jpg" alt="Image 10" />
+            <img class="gallery-image" src="images/image11.jpg" alt="Image 11" />
+            <img class="gallery-image" src="images/image12.jpg" alt="Image 12" />
+            <img class="gallery-image" src="images/image13.jpg" alt="Image 13" />
+            <img class="gallery-image" src="images/image14.jpg" alt="Image 14" />
+            <img class="gallery-image" src="images/image15.jpg" alt="Image 15" />
+            <img class="gallery-image" src="images/image16.jpg" alt="Image 16" />
+            <img class="gallery-image" src="images/image17.jpg" alt="Image 17" />
+            <img class="gallery-image" src="images/image18.jpg" alt="Image 18" />
+            <img class="gallery-image" src="images/image19.jpg" alt="Image 19" />
+            <img class="gallery-image" src="images/image20.jpg" alt="Image 20" />
+            <img class="gallery-image" src="images/image21.jpg" alt="Image 21" />
+            <img class="gallery-image" src="images/image22.jpg" alt="Image 22" />
+            <img class="gallery-image" src="images/image23.jpg" alt="Image 23" />
+            <img class="gallery-image" src="images/image24.jpg" alt="Image 24" />
+            <img class="gallery-image" src="images/image25.jpg" alt="Image 25" />
+        </div>
     </div>
+
     <script>
         fetch('header.html')
             .then(response => response.text())
@@ -26,7 +55,6 @@
             });
     </script>
     <!-- Подключение JavaScript файла -->
-    <script src="preload.js"></script>
     <script src="project.js"></script>
 </body>
 </html>

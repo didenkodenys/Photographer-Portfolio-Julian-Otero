@@ -38,7 +38,8 @@ function showNextImage(x, y) {
     // Добавляем изображение в контейнер
     imageContainer.appendChild(displayedImg);
 
-    currentImageIndex = (currentImageIndex + 1) % totalImages; // Увеличиваем индекс и сбрасываем, если больше 25
+    // Увеличиваем индекс и сбрасываем, если больше 25
+    currentImageIndex = (currentImageIndex + 1) % totalImages; 
 }
 
 let cursorDirectionX = Math.random() * 2 - 1; // Случайное направление по X (от -1 до 1)
