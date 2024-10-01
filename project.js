@@ -78,21 +78,29 @@ function showNext() {
     updateImage();
 }
 
-// Обработка кликов для переключения изображений
-window.addEventListener('click', (e) => {
+// Обработка кликов и касаний для переключения изображений
+const handleSwitchImage = (clientX) => {
     const halfWidth = window.innerWidth / 2;
+    if (clientX < halfWidth) {
+        showPrevious(); // Если клик/касание по левой части экрана, показать предыдущее изображение
+    } else {
+        showNext(); // Если клик/касание по правой части экрана, показать следующее изображение
+    }
+};
 
-    // Проверяем, не кликнули ли мы по ссылке
+// Обработка кликов
+window.addEventListener('click', (e) => {
     const isLink = e.target.closest('a'); // Проверяем, является ли целевой элемент ссылкой
 
     if (!isLink) {
-        // Если клик не по ссылке, переключаем изображение
-        if (e.clientX < halfWidth) {
-            showPrevious(); // Если клик по левой части экрана, показать предыдущее изображение
-        } else {
-            showNext(); // Если клик по правой части экрана, показать следующее изображение
-        }
+        handleSwitchImage(e.clientX); // Обработка нажатий на экран
     }
+});
+
+// Обработка касаний
+window.addEventListener('touchstart', (e) => {
+    const touch = e.touches[0]; // Получаем первое касание
+    handleSwitchImage(touch.clientX); // Обработка касания
 });
 
 // Обработчики событий для кнопок "Previous" и "Next"
