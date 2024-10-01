@@ -19,6 +19,11 @@
 
 
 body {
+    user-select: none; /* Для большинства браузеров */
+    -webkit-user-select: none; /* Для Safari */
+    -moz-user-select: none; /* Для Firefox */
+    -ms-user-select: none; /* Для Internet Explorer/Edge */
+    
     background-color: #F8FBF8;
     font-family: 'InterDisplay', sans-serif;
     font-size: 13px; /* Размер текста */
@@ -32,7 +37,7 @@ body {
 
 header {
     color: #F8FBF8;
-    position: absolute; /* Абсолютная позиция для хедера */
+    position: fixed; /* Абсолютная позиция для хедера */
     top: 0;
     left: 0;
     width: 100vw; /* Хедер занимает всю ширину экрана */
