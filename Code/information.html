@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Information</title>
+</head>
+<body>
+    <div id="header-container"></div>
+    <div class="info-container">
+        <div class="info-box">
+            <div class="info-left">
+                <p>About</p>
+            </div>
+            <div class="info-right">
+                <p>Julian Otero is a photographer whose work encompasses portraits within the field of fashion.
+                    With a conceptual approach rooted in exploration and inquiry, Julian captures high fashion models in ways that reveal organic patterns and dynamics within structured environments.
+                    His compositions often feature dramatic lighting and thoughtful arrangements, evoking a painterly quality that draws the viewer in. Julian’s images invite exploration, unveiling layers of meaning and emotion that resonate with intimacy and sophistication.</p>
+            </div>
+        </div>
+        <div class="info-box">
+            <div class="info-left">
+                <p>Selected clients</p>
+            </div>
+            <div class="info-right">
+                <p>Agnès B.
+                    Haider Ackermann
+                    A.P.C.
+                    1017 ALYX 9SM
+                    The Row
+                    Marni
+                    Staud
+                    Sies Marjan
+                    Maison Kitsuné
+                    Y/Project
+                    Ader Error
+                    Sacai
+                    Ann Sofie Back
+                    J.W. Anderson</p>
+            </div>
+        </div>
+        <div class="info-box">
+            <div class="info-left">
+                <p>Contact</p>
+            </div>
+            <div class="info-right">
+                <p>E: contact@julianotero.com</p>
+                <p>I: julian.otero_</p>
+                <p>P: +44 7900 69231</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-container').innerHTML = data;
+            });
+    </script>
+    <script src="preload.js"></script>
+</body>
+</html>

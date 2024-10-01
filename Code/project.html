@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Project</title>
+</head>
+<body>
+    <div id="header-container"></div>
+    
+    <div class="project-container">
+        <img id="project-image" src="" alt="" />
+        <div class="navigation">
+            <span id="previous" class="nav-button">Previous</span>
+            <div id="image-number" class="image-number"></div>
+            <span id="next" class="nav-button">Next</span>
+        </div>
+
+    </div>
+    <script>
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-container').innerHTML = data;
+            });
+    </script>
+    <!-- Подключение JavaScript файла -->
+    <script src="preload.js"></script>
+    <script src="project.js"></script>
+</body>
+</html>
