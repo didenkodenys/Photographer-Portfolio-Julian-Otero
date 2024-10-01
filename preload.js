@@ -1,3 +1,6 @@
+// Создаем глобальную переменную для хранения изображений
+window.loadedImages = [];
+
 // Создаем и добавляем CSS стили для экрана загрузки
 const styles = `
     #loading-screen {
@@ -43,7 +46,10 @@ document.body.insertAdjacentHTML('beforeend', loadingScreenHTML);
 // Список всех изображений для загрузки
 const imagesToLoad = [];
 for (let i = 1; i <= 25; i++) {
-    imagesToLoad.push(`images/image${i}.jpg`);
+    imagesToLoad.push({
+        src: `images/image${i}.jpg`, // Путь к изображению
+        name: `Image ${i}` // Название изображения
+    });
 }
 
 // Список всех скриптов для загрузки
@@ -53,30 +59,48 @@ const scriptsToLoad = [
     // Добавьте другие скрипты, если они есть
 ];
 
+// Загрузка шрифта
+const fontStyle = `
+@font-face {
+    font-family: 'InterDisplay';
+    src: url('fonts/InterDisplay-SemiBold.woff2') format('woff2');
+    font-weight: 600; /* Убедитесь, что это совпадает с вашим шрифтом */
+    font-style: normal;
+}
+`;
+const fontStyleSheet = document.createElement("style");
+fontStyleSheet.type = "text/css";
+fontStyleSheet.innerText = fontStyle;
+document.head.appendChild(fontStyleSheet);
+
 let loadedResources = 0; // Счетчик загруженных ресурсов
 let animationInterval = null; // Переменная для управления анимацией
-let isResourcesLoaded = false; // Флаг завершения загрузки ресурсов
+let isResourcesLoaded = false; // Флаг завершения загрузки
 const totalResources = imagesToLoad.length + scriptsToLoad.length; // Общее количество ресурсов
 const animationDuration = 500; // Продолжительность анимации в миллисекундах
 
 // Функция для обновления текста загрузки
 function updateLoadingText(progress) {
     const loadingText = document.getElementById('loading-text');
-    loadingText.textContent = progress; // Обновляем текст без нулей впереди
+    loadingText.textContent = Math.floor(progress); // Обновляем текст без нулей впереди
 }
 
 // Функция для загрузки изображения
-function loadImage(src) {
+function loadImage({ src, name }) {
     return new Promise((resolve) => {
         const img = new Image();
         img.src = src;
         img.onload = () => {
             loadedResources++;
+            updateLoadingText((loadedResources / totalResources) * 100); // Обновляем текст прогресса
+            console.log(`${name} загружено`); // Логирование имени изображения
+            window.loadedImages.push(img); // Добавляем изображение в глобальный массив
             resolve();
         };
         img.onerror = () => {
             console.error(`Ошибка загрузки изображения: ${src}`);
             loadedResources++; // Увеличиваем счетчик даже при ошибке
+            updateLoadingText((loadedResources / totalResources) * 100); // Обновляем текст прогресса
             resolve(); // Завершаем загрузку даже при ошибке
         };
     });
@@ -89,11 +113,13 @@ function loadScript(src) {
         script.src = src;
         script.onload = () => {
             loadedResources++;
+            updateLoadingText((loadedResources / totalResources) * 100); // Обновляем текст прогресса
             resolve();
         };
         script.onerror = () => {
             console.error(`Ошибка загрузки скрипта: ${src}`);
             loadedResources++; // Увеличиваем счетчик даже при ошибке
+            updateLoadingText((loadedResources / totalResources) * 100); // Обновляем текст прогресса
             resolve(); // Завершаем загрузку даже при ошибке
         };
         document.head.appendChild(script);
@@ -107,8 +133,6 @@ function animateProgress() {
     animationInterval = setInterval(() => {
         const elapsed = Date.now() - startTime;
         const progress = Math.min((elapsed / animationDuration) * 100, 100); // Рассчитываем текущий прогресс
-
-        updateLoadingText(Math.floor(progress)); // Обновляем текст прогресса
 
         // Если прогресс достиг 100%
         if (progress >= 100 && isResourcesLoaded) {

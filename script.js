@@ -4,50 +4,66 @@ let currentImageIndex = 0; // Индекс текущего изображени
 let isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints; // Проверка на сенсорное устройство
 let cursorElement;
 let lastX, lastY; // Предыдущие координаты курсора
+let lastMouseX, lastMouseY; // Предыдущие координаты мыши для десктопа
 
 // Настройки скорости
-const minSpeed = 50; // Минимальная скорость
-const maxSpeed = 300; // Максимальная скорость
+const minSpeed = 2; // Минимальная скорость
+const maxSpeed = 10; // Максимальная скорость
 const imageGenerationThreshold = 20; // Порог генерации изображения (в пикселях)
+
+// Массив для хранения загруженных изображений
+const images = [];
+
+// Функция для предварительной загрузки изображений
+function preloadImages() {
+    for (let i = 1; i <= totalImages; i++) {
+        const img = new Image();
+        img.src = `images/image${i}.jpg`; // Убедитесь, что названия изображений правильные
+        images.push(img); // Добавляем загруженное изображение в массив
+    }
+}
 
 // Функция для отображения следующего изображения
 function showNextImage(x, y) {
-    const img = document.createElement('img');
-    img.src = `images/image${currentImageIndex + 1}.jpg`; // Убедитесь, что названия изображений правильные
-    img.alt = `Изображение ${currentImageIndex + 1}`;
+    const img = images[currentImageIndex]; // Получаем следующее изображение из массива
+    const displayedImg = document.createElement('img');
+    displayedImg.src = img.src; // Используем загруженное изображение
+    displayedImg.alt = `Изображение ${currentImageIndex + 1}`;
     
     // Центрируем изображение относительно курсора
-    img.style.position = 'absolute'; // Позиционирование изображений
-    img.style.left = `${x}px`; // Центрируем по X (половина ширины изображения)
-    img.style.top = `${y}px`; // Центрируем по Y (половина высоты изображения)
+    displayedImg.style.position = 'absolute'; // Позиционирование изображений
+    displayedImg.style.left = `${x}px`; // Центрируем по X (половина ширины изображения)
+    displayedImg.style.top = `${y}px`; // Центрируем по Y (половина высоты изображения)
 
     // Добавляем изображение в контейнер
-    imageContainer.appendChild(img);
+    imageContainer.appendChild(displayedImg);
 
     currentImageIndex = (currentImageIndex + 1) % totalImages; // Увеличиваем индекс и сбрасываем, если больше 25
 }
+
+let cursorDirectionX = Math.random() * 2 - 1; // Случайное направление по X (от -1 до 1)
+let cursorDirectionY = Math.random() * 2 - 1; // Случайное направление по Y (от -1 до 1)
 
 // Функция для перемещения имитации курсора
 function moveCursor() {
     if (isTouchDevice && cursorElement) {
         const speed = Math.random() * (maxSpeed - minSpeed) + minSpeed; // Случайная скорость в диапазоне
-        const directionX = (Math.random() - 0.5) * speed; // Случайное направление по X
-        const directionY = (Math.random() - 0.5) * speed; // Случайное направление по Y
-
-        const rect = cursorElement.getBoundingClientRect();
-        let newX = rect.left + directionX;
-        let newY = rect.top + directionY;
+        const newX = parseFloat(cursorElement.style.left) + cursorDirectionX * speed; // Обновляем положение по X
+        const newY = parseFloat(cursorElement.style.top) + cursorDirectionY * speed; // Обновляем положение по Y
 
         // Проверка границ экрана
         if (newX < 0 || newX + cursorElement.clientWidth > window.innerWidth) {
-            newX = Math.max(0, Math.min(newX, window.innerWidth - cursorElement.clientWidth));
+            cursorDirectionX = -cursorDirectionX; // Меняем направление по X
+            cursorDirectionY = Math.random() * 2 - 1; // Новое случайное направление по Y
         }
         if (newY < 0 || newY + cursorElement.clientHeight > window.innerHeight) {
-            newY = Math.max(0, Math.min(newY, window.innerHeight - cursorElement.clientHeight));
+            cursorDirectionY = -cursorDirectionY; // Меняем направление по Y
+            cursorDirectionX = Math.random() * 2 - 1; // Новое случайное направление по X
         }
 
-        cursorElement.style.left = `${newX}px`;
-        cursorElement.style.top = `${newY}px`;
+        // Обновляем позицию курсора
+        cursorElement.style.left = `${Math.max(0, Math.min(newX, window.innerWidth - cursorElement.clientWidth))}px`;
+        cursorElement.style.top = `${Math.max(0, Math.min(newY, window.innerHeight - cursorElement.clientHeight))}px`;
 
         // Проверка расстояния перемещения
         const distance = Math.sqrt(Math.pow(newX - lastX, 2) + Math.pow(newY - lastY, 2));
@@ -62,6 +78,13 @@ function moveCursor() {
     requestAnimationFrame(moveCursor); // Продолжаем анимацию
 }
 
+// Инициализация при загрузке страницы
+if (isTouchDevice) {
+    initCursor(); // Запускаем имитацию курсора на сенсорных устройствах
+} else {
+    lastMouseX = window.innerWidth / 2; // Устанавливаем начальную позицию для мыши
+    lastMouseY = window.innerHeight / 2;
+}
 
 // Инициализация имитации курсора
 function initCursor() {
@@ -94,16 +117,24 @@ function removeImages() {
 document.addEventListener('click', () => {
     removeImages(); // Удаляем все изображения по клику
     currentImageIndex = 0; // Сбрасываем индекс
+    // Генерируем новое случайное направление для курсора
+    cursorDirectionX = Math.random() * 2 - 1; // Новое случайное направление по X
+    cursorDirectionY = Math.random() * 2 - 1; // Новое случайное направление по Y
 });
 
-// Инициализация при загрузке страницы
-if (isTouchDevice) {
-    initCursor(); // Запускаем имитацию курсора на сенсорных устройствах
-} else {
-    // Обработчик событий движения мыши для десктопа
-    document.addEventListener('mousemove', (event) => {
-        const x = event.clientX;
-        const y = event.clientY;
+// Обработчик событий движения мыши для десктопа
+document.addEventListener('mousemove', (event) => {
+    const x = event.clientX;
+    const y = event.clientY;
+    
+    // Проверяем расстояние перемещения мыши
+    const distance = Math.sqrt(Math.pow(x - lastMouseX, 2) + Math.pow(y - lastMouseY, 2));
+    if (distance >= imageGenerationThreshold) {
         showNextImage(x, y);
-    });
-}
+        lastMouseX = x; // Обновляем предыдущие координаты мыши
+        lastMouseY = y;
+    }
+});
+
+// Запускаем предварительную загрузку изображений перед инициализацией
+preloadImages();

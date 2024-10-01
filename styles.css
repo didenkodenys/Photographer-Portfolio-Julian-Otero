@@ -21,7 +21,7 @@
 body {
     background-color: #F8FBF8;
     font-family: 'InterDisplay', sans-serif;
-    font-size: 12px; /* Размер текста */
+    font-size: 13px; /* Размер текста */
     color: #2E2930;
     height: 100vh; /* Высота страницы по высоте браузера */
     width: 100vw; /* Ширина страницы по ширине браузера */
@@ -99,6 +99,14 @@ header {
     display: block; /* Убираем лишние пробелы под изображением */
     pointer-events: auto; /* Разрешаем взаимодействие с изображениями */
 }
+
+@media (max-width: 600px) {
+    .image-container img {
+        max-width: 50px; /* Максимальная ширина изображения */
+        max-height: 50px; /* Максимальная высота изображения */
+    }
+}
+
 
 /* Добавьте этот CSS для стилизации информации */
 .info-container {
