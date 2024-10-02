@@ -5,9 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <title>Julian Otero</title>
-    <script src="preload.js"></script>
+    
+    <!-- Предварительная загрузка изображений -->
+    <link rel="preload" href="images/image1.jpg" as="image">
+    <link rel="preload" href="images/image2.jpg" as="image">
+    <link rel="preload" href="images/image3.jpg" as="image">
+    <link rel="preload" href="images/image4.jpg" as="image">
+    <link rel="preload" href="images/image5.jpg" as="image">
+    <link rel="preload" href="images/image6.jpg" as="image">
+    <link rel="preload" href="images/image7.jpg" as="image">
+    <link rel="preload" href="images/image8.jpg" as="image">
+    <link rel="preload" href="images/image9.jpg" as="image">
+    <link rel="preload" href="images/image10.jpg" as="image">
+    <link rel="preload" href="images/image11.jpg" as="image">
+    <link rel="preload" href="images/image12.jpg" as="image">
+    <link rel="preload" href="images/image13.jpg" as="image">
+    <link rel="preload" href="images/image14.jpg" as="image">
+    <link rel="preload" href="images/image15.jpg" as="image">
+    <link rel="preload" href="images/image16.jpg" as="image">
+    <link rel="preload" href="images/image17.jpg" as="image">
+    <link rel="preload" href="images/image18.jpg" as="image">
+    <link rel="preload" href="images/image19.jpg" as="image">
+    <link rel="preload" href="images/image20.jpg" as="image">
+    <link rel="preload" href="images/image21.jpg" as="image">
+    <link rel="preload" href="images/image22.jpg" as="image">
+    <link rel="preload" href="images/image23.jpg" as="image">
+    <link rel="preload" href="images/image24.jpg" as="image">
+    <link rel="preload" href="images/image25.jpg" as="image">
+
+    <script src="preload.js" defer></script>
+    <script src="height.js" defer></script>
 </head>
-<body>   
+<body>
+    <div id="loading-screen" class="loading-screen">
+        <div id="loading-text" class="loading-text">0</div>
+    </div>
+    
     <div id="header-container"></div>
     <div class="image-container">
         <!-- Добавьте изображения здесь -->
