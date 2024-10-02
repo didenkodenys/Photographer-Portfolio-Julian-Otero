@@ -33,6 +33,8 @@ const projectBackgroundColors = {
     'aramie-lena': '#2B2B2B'
 };
 
+let touchHandled = false; // Флаг для отслеживания обработки касания
+
 // Функция для загрузки проекта
 function loadProject(project) {
     currentProject = project;
@@ -90,6 +92,11 @@ const handleSwitchImage = (clientX) => {
 
 // Обработка кликов
 window.addEventListener('click', (e) => {
+    if (touchHandled) {
+        touchHandled = false; // Сбрасываем флаг
+        return; // Пропускаем обработку клика, если уже произошло касание
+    }
+
     const isLink = e.target.closest('a'); // Проверяем, является ли целевой элемент ссылкой
 
     if (!isLink) {
@@ -99,6 +106,7 @@ window.addEventListener('click', (e) => {
 
 // Обработка касаний
 window.addEventListener('touchstart', (e) => {
+    touchHandled = true; // Устанавливаем флаг, что касание произошло
     const touch = e.touches[0]; // Получаем первое касание
     handleSwitchImage(touch.clientX); // Обработка касания
 });

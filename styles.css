@@ -17,13 +17,31 @@
     100% { transform: rotate(360deg); }
 }
 
+/* Отключаем автоматическое оформление телефонных номеров на iOS */
+a[href^="tel"] {
+    color: inherit; /* Наследуем цвет текста */
+    text-decoration: none; /* Убираем подчеркивание */
+}
+
+/* Отключаем оформление ссылок для всех устройств */
+a {
+    color: inherit; /* Наследуем цвет текста */
+    text-decoration: none; /* Убираем подчеркивание */
+    -webkit-tap-highlight-color: transparent; /* Отключаем цвет выделения при нажатии на мобильных устройствах */
+}
+
+/* Отключаем автоформатирование телефонных номеров на iOS */
+html {
+    -webkit-touch-callout: none; /* Отключаем всплывающее меню при долгом нажатии */
+}
+
 
 body {
     user-select: none; /* Для большинства браузеров */
     -webkit-user-select: none; /* Для Safari */
     -moz-user-select: none; /* Для Firefox */
     -ms-user-select: none; /* Для Internet Explorer/Edge */
-    
+
     background-color: #F8FBF8;
     font-family: 'InterDisplay', sans-serif;
     font-size: 13px; /* Размер текста */
@@ -94,15 +112,17 @@ header {
     left: 0; /* Устанавливаем в левую часть окна */
     padding: 10px;
     pointer-events: none; /* Игнорируем события мыши для контейнера */
+    overflow: hidden;
 }
 
 .image-container img {
+    display: block;
     position: absolute;
     max-width: 100px; /* Максимальная ширина изображения */
     max-height: 100px; /* Максимальная высота изображения */
     transform: translate(-50%, -50%); /* Центрируем по X и Y */
     display: block; /* Убираем лишние пробелы под изображением */
-    pointer-events: auto; /* Разрешаем взаимодействие с изображениями */
+    pointer-events: none; /* Разрешаем взаимодействие с изображениями */
 }
 
 @media (max-width: 600px) {
@@ -111,6 +131,7 @@ header {
         max-height: 50px; /* Максимальная высота изображения */
     }
 }
+
 
 
 /* Добавьте этот CSS для стилизации информации */
@@ -124,11 +145,17 @@ header {
     padding-top: 200px; /* Отступ сверху в 200px */
 }
 
+@media (max-width: 500px) {
+    .info-container {
+        padding-top: 140px; /* Отступ сверху для малых экранов */
+    }
+}
+
 .info-box {
     display: flex;
     justify-content: center; /* Центрируем содержимое внутри info-box */
     width: 100%; /* Устанавливаем ширину 100% для info-box */
-    margin: 20px 0px; /* Отступ между блоками */
+    padding: 20px 0px; /* Отступ между блоками */
     color: #F8FBF8;
     mix-blend-mode: difference;
 }

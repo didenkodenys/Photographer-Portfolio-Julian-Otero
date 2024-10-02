@@ -1,11 +1,10 @@
 const imageContainer = document.querySelector('.image-container');
 const totalImages = 25; // Общее количество изображений
 let currentImageIndex = 0; // Индекс текущего изображения
-let isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints; // Проверка на сенсорные устройства
+let isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints; // Проверка на сенсорное устройство
 let cursorElement;
 let lastX, lastY; // Предыдущие координаты курсора
 let lastMouseX, lastMouseY; // Предыдущие координаты мыши для десктопа
-let cursorDirectionX, cursorDirectionY; // Направление курсора
 
 // Настройки скорости
 const minSpeed = 2; // Минимальная скорость
@@ -17,21 +16,22 @@ const images = Array.from(imageContainer.querySelectorAll('img')); // Получ
 
 // Функция для отображения следующего изображения
 function showNextImage(x, y) {
-    const img = images[currentImageIndex]; // Получаем следующее изображение из массива
-
-    // Центрируем изображение относительно курсора
+    const img = images[currentImageIndex].cloneNode(true); // Клонируем следующее изображение
     img.style.position = 'absolute'; // Позиционирование изображений
-    img.style.left = `${x}px`; // Устанавливаем X координату
-    img.style.top = `${y}px`; // Устанавливаем Y координату
+    img.style.left = `${x - img.clientWidth / 2}px`; // Центрируем по X
+    img.style.top = `${y - img.clientHeight / 2}px`; // Центрируем по Y
     img.style.display = 'block'; // Показываем изображение
+    imageContainer.appendChild(img); // Добавляем изображение в контейнер
 
     currentImageIndex = (currentImageIndex + 1) % totalImages; // Увеличиваем индекс и сбрасываем, если больше 25
 }
 
+let cursorDirectionX = Math.random() * 2 - 1; // Случайное направление по X (от -1 до 1)
+let cursorDirectionY = Math.random() * 2 - 1; // Случайное направление по Y (от -1 до 1)
+
 // Функция для перемещения имитации курсора
 function moveCursor() {
     if (isTouchDevice && cursorElement) {
-        // Генерируем случайное направление
         const speed = Math.random() * (maxSpeed - minSpeed) + minSpeed; // Случайная скорость в диапазоне
         const newX = parseFloat(cursorElement.style.left) + cursorDirectionX * speed; // Обновляем положение по X
         const newY = parseFloat(cursorElement.style.top) + cursorDirectionY * speed; // Обновляем положение по Y
@@ -54,7 +54,7 @@ function moveCursor() {
         const distance = Math.sqrt(Math.pow(newX - lastX, 2) + Math.pow(newY - lastY, 2));
         if (distance >= imageGenerationThreshold) {
             // Отображаем следующее изображение в центре курсора
-            showNextImage(newX, newY); // Передаём координаты без смещения
+            showNextImage(newX + cursorElement.clientWidth / 2, newY + cursorElement.clientHeight / 2);
             lastX = newX; // Обновляем предыдущие координаты
             lastY = newY;
         }
@@ -87,11 +87,6 @@ function initCursor() {
     document.body.appendChild(cursorElement);
     lastX = parseFloat(cursorElement.style.left);
     lastY = parseFloat(cursorElement.style.top);
-    
-    // Генерируем случайное направление для курсора
-    cursorDirectionX = Math.random() * 2 - 1; // Случайное направление по X
-    cursorDirectionY = Math.random() * 2 - 1; // Случайное направление по Y
-
     moveCursor(); // Запускаем движение
 }
 
@@ -99,13 +94,13 @@ function initCursor() {
 function removeImages() {
     const images = imageContainer.querySelectorAll('img');
     images.forEach((img) => {
-        img.style.display = 'none'; // Скрываем изображение вместо удаления
+        img.remove(); // Удаляем изображение
     });
 }
 
 // Обработчик событий клика
 document.addEventListener('click', () => {
-    removeImages(); // Скрываем все изображения по клику
+    removeImages(); // Удаляем все изображения по клику
     currentImageIndex = 0; // Сбрасываем индекс
     // Генерируем новое случайное направление для курсора
     cursorDirectionX = Math.random() * 2 - 1; // Новое случайное направление по X
@@ -120,10 +115,8 @@ document.addEventListener('mousemove', (event) => {
     // Проверяем расстояние перемещения мыши
     const distance = Math.sqrt(Math.pow(x - lastMouseX, 2) + Math.pow(y - lastMouseY, 2));
     if (distance >= imageGenerationThreshold) {
-        showNextImage(x, y); // Передаём координаты мыши
+        showNextImage(x, y); // Отображаем следующее изображение
         lastMouseX = x; // Обновляем предыдущие координаты мыши
         lastMouseY = y;
     }
 });
-
-// Удаляем функцию preloadImages, так как изображения уже загружены в HTML
