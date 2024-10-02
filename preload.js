@@ -31,17 +31,27 @@ window.resources = [
 
 window.loadedCount = 0; // Количество загруженных ресурсов
 window.imagesArray = []; // Массив для хранения загруженных изображений
+let loadingStartTime; // Время начала загрузки
 
 // Функция для обновления прогресса загрузки
 window.updateLoadingProgress = function() {
     const loadingText = document.querySelector('.loading-text');
-    const progress = Math.round((loadedCount / resources.length) * 100);
-    loadingText.textContent = `${progress}`; // Убираем знак процента
+    const elapsedTime = Date.now() - loadingStartTime; // Время с начала загрузки
+    const progress = Math.min(Math.round((window.loadedCount / window.resources.length) * 100), 100);
 
-    if (loadedCount === resources.length) {
+    // Обновляем текст загрузки с задержкой, чтобы гарантировать минимальное время 2 секунды
+    if (elapsedTime < 2000) {
+        const adjustedProgress = Math.round((elapsedTime / 2000) * progress);
+        loadingText.textContent = `${adjustedProgress}`;
+    } else {
+        loadingText.textContent = `${progress}`;
+    }
+
+    if (window.loadedCount === window.resources.length) {
         // Все ресурсы загружены, скрываем экран загрузки
         document.getElementById('loading-screen').style.display = 'none';
         displayImages(); // Показываем изображения
+        checkLoadedImages(); // Проверяем загруженные изображения
     }
 }
 
@@ -52,14 +62,14 @@ window.loadImage = function(resource) {
         img.src = resource;
 
         img.onload = () => {
-            loadedCount++;
-            imagesArray.push(img); // Сохраняем загруженное изображение в массив
+            window.loadedCount++;
+            window.imagesArray.push(img); // Сохраняем загруженное изображение в массив
             updateLoadingProgress();
             resolve(); // Разрешаем промис после загрузки
         };
 
         img.onerror = () => {
-            loadedCount++;
+            window.loadedCount++;
             updateLoadingProgress();
             resolve(); // Разрешаем промис даже в случае ошибки
         };
@@ -69,14 +79,30 @@ window.loadImage = function(resource) {
 // Функция для отображения загруженных изображений
 window.displayImages = function() {
     const imageContainer = document.querySelector('.image-container'); // Находим контейнер для изображений
-    imagesArray.forEach(img => {
-        imageContainer.appendChild(img); // Добавляем каждое загруженное изображение в контейнер
+
+    // Итерируемся по массиву загруженных изображений
+    window.imagesArray.forEach((img, index) => {
+        // Находим изображение в контейнере по индексу
+        const existingImg = imageContainer.querySelector(`img:nth-of-type(${index + 1})`);
+        if (existingImg) {
+            existingImg.src = img.src; // Устанавливаем путь к загруженному изображению
+            existingImg.style.display = 'block'; // Делаем изображение видимым
+        }
+    });
+}
+
+// Функция для проверки загруженных изображений
+window.checkLoadedImages = function() {
+    console.log(`Всего загруженных изображений: ${window.imagesArray.length}`);
+    window.imagesArray.forEach((img, index) => {
+        console.log(`Изображение ${index + 1}: ${img.src}`);
     });
 }
 
 // Функция для загрузки всех ресурсов
 window.loadResources = async function() {
-    const loadPromises = resources.map(resource => loadImage(resource));
+    loadingStartTime = Date.now(); // Запоминаем время начала загрузки
+    const loadPromises = window.resources.map(resource => loadImage(resource));
     await Promise.all(loadPromises);
 }
 
