@@ -225,17 +225,3 @@ img {
     -moz-user-select: none; /* Для Firefox */
     -ms-user-select: none; /* Для Internet Explorer/Edge */
 }
-
-/* Медиа-запросы для планшетов */
-@media (max-width: 768px) {
-    .image-container {
-        height: 50vh; /* Увеличиваем высоту для планшетов */
-    }
-}
-
-/* Медиа-запросы для мобильных устройств */
-@media (max-width: 480px) {
-    .image-container {
-        height: 60vh; /* Увеличиваем высоту для мобильных устройств */
-    }
-}
