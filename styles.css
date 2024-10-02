@@ -37,6 +37,8 @@ html {
 
 
 body {
+    height: calc(var(--vh, 1vh) * 100); /* Высота body с учётом панели браузера */
+
     user-select: none; /* Для большинства браузеров */
     -webkit-user-select: none; /* Для Safari */
     -moz-user-select: none; /* Для Firefox */
@@ -46,7 +48,7 @@ body {
     font-family: 'InterDisplay', sans-serif;
     font-size: 13px; /* Размер текста */
     color: #2E2930;
-    height: 100vh; /* Высота страницы по высоте браузера */
+    /*height: 100vh; /* Высота страницы по высоте браузера */
     width: 100vw; /* Ширина страницы по ширине браузера */
     overflow-x: hidden; /* Отключаем горизонтальный скроллинг */
     -webkit-font-smoothing: antialiased; /* Улучшаем рендеринг шрифта */
@@ -58,7 +60,7 @@ header {
     position: fixed; /* Абсолютная позиция для хедера */
     top: 0;
     left: 0;
-    width: 100vw; /* Хедер занимает всю ширину экрана */
+    width: 100%; /* Хедер занимает всю ширину экрана */
     z-index: 10; /* Хедер будет выше всех остальных элементов */
     display: flex;
     align-items: flex-start; /* Выравнивание по верхнему краю */
@@ -105,8 +107,8 @@ header {
     display: flex;
     justify-content: center; /* Центрирование по ширине */
     align-items: center; /* Центрирование по высоте */
-    height: 100vh; /* Высота контейнера по высоте браузера */
-    width: 100vw; /* Ширина контейнера по ширине браузера */
+    height: 100%; /* Высота контейнера по высоте браузера */
+    width: 100%; /* Ширина контейнера по ширине браузера */
     position: fixed; /* Используем фиксированное позиционирование, чтобы контейнер не сдвигался */
     top: 0; /* Устанавливаем в верхнюю часть окна */
     left: 0; /* Устанавливаем в левую часть окна */
@@ -140,8 +142,8 @@ header {
     flex-direction: column; /* Выстраиваем дива в колонку */
     align-items: center; /* Центрируем контейнер по горизонтали */
     justify-content: flex-start; /* Центрируем контейнер по вертикали */
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     padding-top: 200px; /* Отступ сверху в 200px */
 }
 
@@ -184,7 +186,7 @@ header {
     cursor: pointer;
     position: relative;
     width: 100%;
-    height: 100vh; /* Полная высота экрана */
+    height: 100%; /* Полная высота экрана */
     display: flex;
     justify-content: center;
     align-items: center;
