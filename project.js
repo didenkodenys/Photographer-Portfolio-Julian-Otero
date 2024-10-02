@@ -106,6 +106,9 @@ window.addEventListener('click', (e) => {
 
 // Обработка касаний
 window.addEventListener('touchstart', (e) => {
+    const isLink = e.target.closest('a'); // Проверяем, является ли целевой элемент ссылкой
+    if (isLink) return; // Если это ссылка, отменяем обработку касания
+
     touchHandled = true; // Устанавливаем флаг, что касание произошло
     const touch = e.touches[0]; // Получаем первое касание
     handleSwitchImage(touch.clientX); // Обработка касания
