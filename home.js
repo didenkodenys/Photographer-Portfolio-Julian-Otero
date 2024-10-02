@@ -13,15 +13,35 @@ const imageGenerationThreshold = 20; // Порог генерации изобр
 
 // Массив для хранения загруженных изображений
 const images = Array.from(imageContainer.querySelectorAll('img')); // Получаем все изображения из контейнера
+const preloadedImages = []; // Массив для предварительно загруженных изображений
+const loadingScreen = document.getElementById('loading-screen'); // Получаем элемент загрузочного экрана
+
+// Функция для предварительной загрузки всех изображений
+function preloadImages() {
+    return Promise.all(
+        images.map((img) => {
+            return new Promise((resolve) => {
+                const preloadedImg = new Image();
+                preloadedImg.src = img.src; // Задаем источник изображения
+                preloadedImg.onload = resolve; // Разрешаем промис после загрузки
+                preloadedImg.onerror = resolve; // Разрешаем промис даже в случае ошибки
+                preloadedImages.push(preloadedImg); // Сохраняем загруженное изображение в массив
+            });
+        })
+    ).then(() => {
+        loadingScreen.style.display = 'none'; // Скрываем загрузочный экран после загрузки
+    });
+}
 
 // Функция для отображения следующего изображения
 function showNextImage(x, y) {
-    const img = images[currentImageIndex].cloneNode(true); // Клонируем следующее изображение
-    img.style.position = 'absolute'; // Позиционирование изображений
-    img.style.left = `${x - img.clientWidth / 2}px`; // Центрируем по X
-    img.style.top = `${y - img.clientHeight / 2}px`; // Центрируем по Y
-    img.style.display = 'block'; // Показываем изображение
-    imageContainer.appendChild(img); // Добавляем изображение в контейнер
+    const img = preloadedImages[currentImageIndex]; // Получаем следующее предзагруженное изображение
+    const imgClone = img.cloneNode(true); // Клонируем изображение
+    imgClone.style.position = 'absolute'; // Позиционирование изображений
+    imgClone.style.left = `${x - imgClone.clientWidth / 2}px`; // Центрируем по X
+    imgClone.style.top = `${y - imgClone.clientHeight / 2}px`; // Центрируем по Y
+    imgClone.style.display = 'block'; // Показываем изображение
+    imageContainer.appendChild(imgClone); // Добавляем изображение в контейнер
 
     currentImageIndex = (currentImageIndex + 1) % totalImages; // Увеличиваем индекс и сбрасываем, если больше 25
 }
@@ -64,12 +84,14 @@ function moveCursor() {
 }
 
 // Инициализация при загрузке страницы
-if (isTouchDevice) {
-    initCursor(); // Запускаем имитацию курсора на сенсорных устройствах
-} else {
-    lastMouseX = window.innerWidth / 2; // Устанавливаем начальную позицию для мыши
-    lastMouseY = window.innerHeight / 2;
-}
+preloadImages().then(() => {
+    if (isTouchDevice) {
+        initCursor(); // Запускаем имитацию курсора на сенсорных устройствах
+    } else {
+        lastMouseX = window.innerWidth / 2; // Устанавливаем начальную позицию для мыши
+        lastMouseY = window.innerHeight / 2;
+    }
+});
 
 // Инициализация имитации курсора
 function initCursor() {
