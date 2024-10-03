@@ -22,6 +22,27 @@
     100% { transform: rotate(360deg); }
 }
 
+ /* Стили для загрузочного экрана */
+ #loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #F8FBF8;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    z-index: 9999; /* Убедитесь, что экран загрузки поверх всего остального */
+    opacity: 1; /* Начальная непрозрачность */
+}
+
+#loading-text {
+    color: #2E2930;
+    font-size: 128px;
+    margin: 10px; /* Отступ 10 пикселей */
+}
+
 
 /* Отключаем автоматическое оформление телефонных номеров на iOS */
 a[href^="tel"] {

@@ -1,110 +1,44 @@
-// preload.js
+document.addEventListener('DOMContentLoaded', () => {
+    const images = document.querySelectorAll('.image-container img');
+    const loadingScreen = document.getElementById('loading-screen');
+    const loadingText = document.getElementById('loading-text');
+    let loadedImagesCount = 0;
 
-// Массив с ресурсами для загрузки
-window.resources = [
-    'images/image1.jpg',
-    'images/image2.jpg',
-    'images/image3.jpg',
-    'images/image4.jpg',
-    'images/image5.jpg',
-    'images/image6.jpg',
-    'images/image7.jpg',
-    'images/image8.jpg',
-    'images/image9.jpg',
-    'images/image10.jpg',
-    'images/image11.jpg',
-    'images/image12.jpg',
-    'images/image13.jpg',
-    'images/image14.jpg',
-    'images/image15.jpg',
-    'images/image16.jpg',
-    'images/image17.jpg',
-    'images/image18.jpg',
-    'images/image19.jpg',
-    'images/image20.jpg',
-    'images/image21.jpg',
-    'images/image22.jpg',
-    'images/image23.jpg',
-    'images/image24.jpg',
-    'images/image25.jpg',
-];
+    // Проверка, загружены ли все изображения
+    const allImagesLoaded = Array.from(images).every(img => img.complete);
 
-window.loadedCount = 0; // Количество загруженных ресурсов
-window.imagesArray = []; // Массив для хранения загруженных изображений
-let loadingStartTime; // Время начала загрузки
-
-// Функция для обновления прогресса загрузки
-window.updateLoadingProgress = function() {
-    const loadingText = document.querySelector('.loading-text');
-    const elapsedTime = Date.now() - loadingStartTime; // Время с начала загрузки
-    const progress = Math.min(Math.round((window.loadedCount / window.resources.length) * 100), 100);
-
-    // Обновляем текст загрузки с задержкой, чтобы гарантировать минимальное время 2 секунды
-    if (elapsedTime < 2000) {
-        const adjustedProgress = Math.round((elapsedTime / 2000) * progress);
-        loadingText.textContent = `${adjustedProgress}`;
+    if (allImagesLoaded) {
+        // Если все изображения уже загружены, просто выйти
+        return; // Завершить выполнение
     } else {
-        loadingText.textContent = `${progress}`;
+        // Показать экран загрузки, если не все изображения загружены
+        loadingScreen.style.display = 'flex';
     }
 
-    if (window.loadedCount === window.resources.length) {
-        // Все ресурсы загружены, скрываем экран загрузки
-        document.getElementById('loading-screen').style.display = 'none';
-        displayImages(); // Показываем изображения
-        checkLoadedImages(); // Проверяем загруженные изображения
-    }
-}
-
-// Функция для загрузки изображения
-window.loadImage = function(resource) {
-    return new Promise((resolve) => {
-        const img = new Image(); // Создаем новый элемент изображения
-        img.src = resource;
-
+    images.forEach((img) => {
         img.onload = () => {
-            window.loadedCount++;
-            window.imagesArray.push(img); // Сохраняем загруженное изображение в массив
-            updateLoadingProgress();
-            resolve(); // Разрешаем промис после загрузки
+            loadedImagesCount++;
+            // Обновление текста загрузки
+            loadingText.textContent = Math.round((loadedImagesCount / images.length) * 100) + '%';
+            if (loadedImagesCount === images.length) {
+                // Все изображения загружены
+                loadingText.textContent = '100%'; // Установить текст на 100%
+                // Скрыть экран загрузки сразу после загрузки
+                loadingScreen.style.display = 'none';
+            }
         };
 
         img.onerror = () => {
-            window.loadedCount++;
-            updateLoadingProgress();
-            resolve(); // Разрешаем промис даже в случае ошибки
+            loadedImagesCount++;
+            // Обновление текста загрузки в случае ошибки
+            loadingText.textContent = Math.round((loadedImagesCount / images.length) * 100) + '%';
+            if (loadedImagesCount === images.length) {
+                // Если некоторые изображения не загрузились, скрыть экран загрузки
+                loadingScreen.style.display = 'none'; // Скрыть экран загрузки
+            }
         };
+
+        // Запустить загрузку изображений
+        img.src = img.src; // Это нужно для того, чтобы событие onload сработало
     });
-}
-
-// Функция для отображения загруженных изображений
-window.displayImages = function() {
-    const imageContainer = document.querySelector('.image-container'); // Находим контейнер для изображений
-
-    // Итерируемся по массиву загруженных изображений
-    window.imagesArray.forEach((img, index) => {
-        // Находим изображение в контейнере по индексу
-        const existingImg = imageContainer.querySelector(`img:nth-of-type(${index + 1})`);
-        if (existingImg) {
-            existingImg.src = img.src; // Устанавливаем путь к загруженному изображению
-            existingImg.style.display = 'block'; // Делаем изображение видимым
-        }
-    });
-}
-
-// Функция для проверки загруженных изображений
-window.checkLoadedImages = function() {
-    console.log(`Всего загруженных изображений: ${window.imagesArray.length}`);
-    window.imagesArray.forEach((img, index) => {
-        console.log(`Изображение ${index + 1}: ${img.src}`);
-    });
-}
-
-// Функция для загрузки всех ресурсов
-window.loadResources = async function() {
-    loadingStartTime = Date.now(); // Запоминаем время начала загрузки
-    const loadPromises = window.resources.map(resource => loadImage(resource));
-    await Promise.all(loadPromises);
-}
-
-// Начинаем загрузку ресурсов
-loadResources();
+});
