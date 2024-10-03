@@ -74,6 +74,7 @@ body {
     background-color: #F8FBF8;
     font-family: 'InterDisplay', sans-serif;
     font-size: 13px; /* Размер текста */
+    line-height: 100%;
     color: #2E2930;
     /*height: 100vh; /* Высота страницы по высоте браузера */
     width: 100vw; /* Ширина страницы по ширине браузера */
@@ -204,6 +205,11 @@ header {
 .info-right {
     text-align: left; /* Выравнивание текста по левому краю */
 }
+
+#specific-info-right p:nth-child(2) {
+    margin: 5px 0; /* Отступ 5 пикселей сверху и снизу для центрального абзаца */
+}
+
 
 .project-page {
     cursor: pointer; /* Устанавливаем курсор в виде указателя для страницы проекта */
