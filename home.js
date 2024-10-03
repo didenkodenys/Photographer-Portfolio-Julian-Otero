@@ -26,9 +26,25 @@ function showNextImage(x, y) {
     imgClone.style.left = `${x - imgClone.clientWidth / 2}px`; // Центрируем по X
     imgClone.style.top = `${y - imgClone.clientHeight / 2}px`; // Центрируем по Y
     imgClone.style.display = 'block'; // Показываем изображение
+    
     imageContainer.appendChild(imgClone); // Добавляем изображение в контейнер
+
+    // Если на сенсорном устройстве, проверяем количество изображений
+    if (isTouchDevice) {
+        const currentImages = imageContainer.querySelectorAll('img');
+        if (currentImages.length > 25) {
+            removeOldestImage(); // Удаляем самое старое изображение, если больше 25
+        }
+    }
 }
 
+// Функция для удаления самого старого изображения
+function removeOldestImage() {
+    const images = imageContainer.querySelectorAll('img');
+    if (images.length > 0) {
+        images[0].remove(); // Удаляем самое старое изображение
+    }
+}
 
 let cursorDirectionX = Math.random() * 2 - 1; // Случайное направление по X (от -1 до 1)
 let cursorDirectionY = Math.random() * 2 - 1; // Случайное направление по Y (от -1 до 1)
