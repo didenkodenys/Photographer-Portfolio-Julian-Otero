@@ -17,6 +17,12 @@
     100% { transform: rotate(360deg); }
 }
 
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
 /* Отключаем автоматическое оформление телефонных номеров на iOS */
 a[href^="tel"] {
     color: inherit; /* Наследуем цвет текста */
@@ -210,12 +216,22 @@ header {
 }
 
 .nav-button {
+    flex: 1;
     cursor: pointer;
     color: #F8FBF8;
     mix-blend-mode: difference;
 }
 
+#previous {
+    text-align: left; /* Выравнивает текст влево в предыдущей кнопке */
+}
+
+#next {
+    text-align: right; /* Выравнивает текст вправо в следующей кнопке */
+}
+
 .image-number {
+    flex: 1;
     text-align: center;
     color: #F8FBF8;
     mix-blend-mode: difference;

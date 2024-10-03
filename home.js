@@ -11,21 +11,17 @@ const minSpeed = 10; // Минимальная скорость
 const maxSpeed = 20; // Максимальная скорость
 const imageGenerationThreshold = 20; // Порог генерации изображения (в пикселях)
 
-// Массив для хранения загруженных изображений
+// Массив для хранения всех изображений из HTML
 const images = Array.from(imageContainer.querySelectorAll('img')); // Получаем все изображения из контейнера
-const loadingScreen = document.getElementById('loading-screen'); // Получаем элемент загрузочного экрана
 
 // Функция для отображения следующего изображения
 function showNextImage(x, y) {
-    const img = images[currentImageIndex]; // Получаем следующее изображение
-    const imgClone = img.cloneNode(true); // Клонируем изображение, чтобы не затрагивать оригинал
-
-    // Устанавливаем позиционирование для изображения
-    imgClone.style.position = 'absolute'; 
+    const img = images[currentImageIndex]; // Получаем следующее изображение из HTML
+    const imgClone = img.cloneNode(true); // Клонируем изображение
+    imgClone.style.position = 'absolute'; // Позиционирование изображений
     imgClone.style.left = `${x - imgClone.clientWidth / 2}px`; // Центрируем по X
     imgClone.style.top = `${y - imgClone.clientHeight / 2}px`; // Центрируем по Y
-    imgClone.style.display = 'block'; // Отображаем изображение
-
+    imgClone.style.display = 'block'; // Показываем изображение
     imageContainer.appendChild(imgClone); // Добавляем изображение в контейнер
 
     currentImageIndex = (currentImageIndex + 1) % totalImages; // Увеличиваем индекс и сбрасываем, если больше 25
@@ -69,16 +65,12 @@ function moveCursor() {
 }
 
 // Инициализация при загрузке страницы
-window.addEventListener('load', () => {
-    loadingScreen.style.display = 'none'; // Скрываем загрузочный экран после загрузки
-
-    if (isTouchDevice) {
-        initCursor(); // Запускаем имитацию курсора на сенсорных устройствах
-    } else {
-        lastMouseX = window.innerWidth / 2; // Устанавливаем начальную позицию для мыши
-        lastMouseY = window.innerHeight / 2;
-    }
-});
+if (isTouchDevice) {
+    initCursor(); // Запускаем имитацию курсора на сенсорных устройствах
+} else {
+    lastMouseX = window.innerWidth / 2; // Устанавливаем начальную позицию для мыши
+    lastMouseY = window.innerHeight / 2;
+}
 
 // Инициализация имитации курсора
 function initCursor() {
@@ -101,7 +93,7 @@ function initCursor() {
 
 // Функция для удаления изображений
 function removeImages() {
-    const images = imageContainer.querySelectorAll('img:not([style="display: none;"])');
+    const images = imageContainer.querySelectorAll('img');
     images.forEach((img) => {
         img.remove(); // Удаляем изображение
     });
