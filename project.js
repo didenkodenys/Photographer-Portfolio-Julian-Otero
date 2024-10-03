@@ -1,5 +1,6 @@
 let currentProject = 'kaia'; // Установите нужный проект по умолчанию
 let currentIndex = 0; // Индекс текущего изображения
+let isTouchDevice = false; // Флаг для проверки устройства
 
 // Объект для хранения цветов фона для каждого проекта
 const projectBackgroundColors = {
@@ -73,6 +74,7 @@ const handleSwitchImage = (clientX) => {
 
 // Обработка кликов
 window.addEventListener('click', (e) => {
+    if (isTouchDevice) return; // Если устройство с поддержкой касания, игнорируем клики
     const isLink = e.target.closest('a'); // Проверяем, является ли целевой элемент ссылкой
     if (!isLink) {
         handleSwitchImage(e.clientX); // Обработка нажатий на экран
@@ -81,6 +83,7 @@ window.addEventListener('click', (e) => {
 
 // Обработка касаний
 window.addEventListener('touchstart', (e) => {
+    isTouchDevice = true; // Устанавливаем флаг, что устройство поддерживает касание
     const isLink = e.target.closest('a'); // Проверяем, является ли целевой элемент ссылкой
     if (isLink) return; // Если это ссылка, отменяем обработку касания
 
@@ -89,22 +92,22 @@ window.addEventListener('touchstart', (e) => {
 });
 
 // Обработчики событий для кнопок "Previous" и "Next"
-const previousButton = document.getElementById('previous');
-const nextButton = document.getElementById('next');
+// const previousButton = document.getElementById('previous');
+// const nextButton = document.getElementById('next');
 
-if (previousButton) {
-    previousButton.addEventListener('click', (e) => {
-        e.preventDefault(); // Предотвращаем переход по ссылке
-        showPrevious();
-    });
-}
+// if (previousButton) {
+//     previousButton.addEventListener('click', (e) => {
+//         e.preventDefault(); // Предотвращаем переход по ссылке
+//         showPrevious();
+//     });
+// }
 
-if (nextButton) {
-    nextButton.addEventListener('click', (e) => {
-        e.preventDefault(); // Предотвращаем переход по ссылке
-        showNext();
-    });
-}
+// if (nextButton) {
+//     nextButton.addEventListener('click', (e) => {
+//         e.preventDefault(); // Предотвращаем переход по ссылке
+//         showNext();
+//     });
+// }
 
 // Обработка параметров URL
 const urlParams = new URLSearchParams(window.location.search);
