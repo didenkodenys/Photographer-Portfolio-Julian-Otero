@@ -14,12 +14,18 @@ const imageGenerationThreshold = 20; // Порог генерации изобр
 // Массив для хранения всех изображений из HTML
 const images = Array.from(imageContainer.querySelectorAll('img')); // Получаем все изображения из контейнера
 
-// Перемешивание массива индексов изображений
-const shuffledIndices = [...Array(totalImages).keys()].sort(() => Math.random() - 0.5);
+// Массив для хранения последних показанных изображений
+const lastShownImages = [];
 
 // Функция для отображения следующего случайного изображения
 function showNextImage(x, y) {
-    const randomIndex = Math.floor(Math.random() * totalImages); // Генерируем случайный индекс
+    let randomIndex;
+    
+    // Генерация нового индекса, пока не будет найдено изображение, которое можно показать
+    do {
+        randomIndex = Math.floor(Math.random() * totalImages); // Генерируем случайный индекс
+    } while (lastShownImages.includes(randomIndex)); // Проверяем, что изображение не входило в последние 10
+
     const img = images[randomIndex]; // Получаем изображение по случайному индексу
     const imgClone = img.cloneNode(true); // Клонируем изображение
     imgClone.style.position = 'absolute'; // Позиционирование изображений
@@ -35,6 +41,14 @@ function showNextImage(x, y) {
         if (currentImages.length > 25) {
             removeOldestImage(); // Удаляем самое старое изображение, если больше 25
         }
+    }
+
+    // Добавляем текущий индекс в массив последних показанных изображений
+    lastShownImages.push(randomIndex);
+    
+    // Если в массиве больше 10 элементов, удаляем первый (самый старый)
+    if (lastShownImages.length > 10) {
+        lastShownImages.shift();
     }
 }
 
@@ -122,6 +136,7 @@ function removeImages() {
 document.addEventListener('click', () => {
     removeImages(); // Удаляем все изображения по клику
     currentImageIndex = 0; // Сбрасываем индекс
+    lastShownImages.length = 0; // Очищаем массив последних показанных изображений
     // Генерируем новое случайное направление для курсора
     cursorDirectionX = Math.random() * 2 - 1; // Новое случайное направление по X
     cursorDirectionY = Math.random() * 2 - 1; // Новое случайное направление по Y
