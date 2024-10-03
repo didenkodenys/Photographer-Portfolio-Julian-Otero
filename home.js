@@ -14,18 +14,21 @@ const imageGenerationThreshold = 20; // Порог генерации изобр
 // Массив для хранения всех изображений из HTML
 const images = Array.from(imageContainer.querySelectorAll('img')); // Получаем все изображения из контейнера
 
-// Функция для отображения следующего изображения
+// Перемешивание массива индексов изображений
+const shuffledIndices = [...Array(totalImages).keys()].sort(() => Math.random() - 0.5);
+
+// Функция для отображения следующего случайного изображения
 function showNextImage(x, y) {
-    const img = images[currentImageIndex]; // Получаем следующее изображение из HTML
+    const randomIndex = Math.floor(Math.random() * totalImages); // Генерируем случайный индекс
+    const img = images[randomIndex]; // Получаем изображение по случайному индексу
     const imgClone = img.cloneNode(true); // Клонируем изображение
     imgClone.style.position = 'absolute'; // Позиционирование изображений
     imgClone.style.left = `${x - imgClone.clientWidth / 2}px`; // Центрируем по X
     imgClone.style.top = `${y - imgClone.clientHeight / 2}px`; // Центрируем по Y
     imgClone.style.display = 'block'; // Показываем изображение
     imageContainer.appendChild(imgClone); // Добавляем изображение в контейнер
-
-    currentImageIndex = (currentImageIndex + 1) % totalImages; // Увеличиваем индекс и сбрасываем, если больше 25
 }
+
 
 let cursorDirectionX = Math.random() * 2 - 1; // Случайное направление по X (от -1 до 1)
 let cursorDirectionY = Math.random() * 2 - 1; // Случайное направление по Y (от -1 до 1)
