@@ -154,15 +154,6 @@ header {
     pointer-events: none; /* Разрешаем взаимодействие с изображениями */
 }
 
-@media (max-width: 600px) {
-    .image-container img {
-        max-width: 50px; /* Максимальная ширина изображения */
-        max-height: 50px; /* Максимальная высота изображения */
-    }
-}
-
-
-
 /* Добавьте этот CSS для стилизации информации */
 .info-container {
     line-height: 100%;
