@@ -1,65 +1,65 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const imageContainers = document.querySelectorAll('.image-container, #image-gallery'); // Найдем оба контейнера
+    const imageContainers = document.querySelectorAll('.image-container, #image-gallery'); // Find both containers
     const loadingScreen = document.getElementById('loading-screen');
     const loadingText = document.getElementById('loading-text');
     let loadedImagesCount = 0;
     let totalImagesCount = 0;
 
-    // Проверка наличия контейнеров
+    // Check for the presence of containers
     if (imageContainers.length === 0) {
-        return; // Если контейнеров нет, просто завершаем выполнение
+        return; // If there are no containers, just exit the function
     }
 
-    // Считаем общее количество изображений в обоих контейнерах
+    // Count the total number of images in both containers
     imageContainers.forEach(container => {
-        const images = container.querySelectorAll('img'); // Найдем все изображения в текущем контейнере
-        totalImagesCount += images.length; // Увеличиваем общее количество изображений
+        const images = container.querySelectorAll('img'); // Find all images in the current container
+        totalImagesCount += images.length; // Increase the total number of images
 
         if (images.length === 0) {
-            return; // Если в контейнере нет изображений, просто продолжаем
+            return; // If there are no images in the container, just continue
         }
 
-        // Проверяем, загружены ли все изображения в контейнере
+        // Check if all images in the container are loaded
         const allImagesLoaded = Array.from(images).every(img => img.complete);
 
         if (allImagesLoaded) {
-            // Если все изображения уже загружены, увеличиваем счетчик
+            // If all images are already loaded, increase the counter
             loadedImagesCount += images.length;
-            return; // Завершить выполнение для этого контейнера
+            return; // Exit the function for this container
         } else {
-            // Показать экран загрузки, если не все изображения загружены
+            // Show the loading screen if not all images are loaded
             loadingScreen.style.display = 'flex';
         }
 
         images.forEach((img) => {
             img.onload = () => {
                 loadedImagesCount++;
-                // Обновление текста загрузки
+                // Update loading text
                 loadingText.textContent = Math.round((loadedImagesCount / totalImagesCount) * 100) + '%';
                 if (loadedImagesCount === totalImagesCount) {
-                    // Все изображения загружены
-                    loadingText.textContent = '100%'; // Установить текст на 100%
-                    // Скрыть экран загрузки сразу после загрузки
+                    // All images are loaded
+                    loadingText.textContent = '100%'; // Set text to 100%
+                    // Hide the loading screen immediately after loading
                     loadingScreen.style.display = 'none';
                 }
             };
 
             img.onerror = () => {
                 loadedImagesCount++;
-                // Обновление текста загрузки в случае ошибки
+                // Update loading text in case of an error
                 loadingText.textContent = Math.round((loadedImagesCount / totalImagesCount) * 100) + '%';
                 if (loadedImagesCount === totalImagesCount) {
-                    // Если некоторые изображения не загрузились, скрыть экран загрузки
-                    loadingScreen.style.display = 'none'; // Скрыть экран загрузки
+                    // If some images failed to load, hide the loading screen
+                    loadingScreen.style.display = 'none'; // Hide the loading screen
                 }
             };
 
-            // Запустить загрузку изображений
-            img.src = img.src; // Это нужно для того, чтобы событие onload сработало
+            // Start loading images
+            img.src = img.src; // This is needed for the onload event to fire
         });
     });
 
-    // Если нет изображений для загрузки, скрываем экран загрузки
+    // If there are no images to load, hide the loading screen
     if (totalImagesCount === 0) {
         loadingScreen.style.display = 'none';
     }

@@ -1,7 +1,7 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; /* Включаем паддинги и бордеры в размер элементов */
+    box-sizing: border-box; /* Include paddings and borders in element sizes */
 }
 
 @font-face {
@@ -11,7 +11,6 @@
     font-weight: 600;
 }
 
-
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
@@ -22,8 +21,8 @@
     100% { transform: rotate(360deg); }
 }
 
- /* Стили для загрузочного экрана */
- #loading-screen {
+/* Styles for the loading screen */
+#loading-screen {
     position: fixed;
     top: 0;
     left: 0;
@@ -33,184 +32,179 @@
     display: flex;
     justify-content: flex-start;
     align-items: flex-end;
-    z-index: 9999; /* Убедитесь, что экран загрузки поверх всего остального */
-    opacity: 1; /* Начальная непрозрачность */
+    z-index: 9999; /* Ensure the loading screen is above everything else */
+    opacity: 1; /* Initial opacity */
 }
 
 #loading-text {
     color: #2E2930;
     font-size: 128px;
-    margin: 10px; /* Отступ 10 пикселей */
+    margin: 10px; /* 10 pixels margin */
 }
 
-
-/* Отключаем автоматическое оформление телефонных номеров на iOS */
+/* Disable automatic formatting of phone numbers on iOS */
 a[href^="tel"] {
-    color: inherit; /* Наследуем цвет текста */
-    text-decoration: none; /* Убираем подчеркивание */
+    color: inherit; /* Inherit text color */
+    text-decoration: none; /* Remove underline */
 }
 
-/* Отключаем оформление ссылок для всех устройств */
+/* Disable link formatting for all devices */
 a {
-    color: inherit; /* Наследуем цвет текста */
-    text-decoration: none; /* Убираем подчеркивание */
-    -webkit-tap-highlight-color: transparent; /* Отключаем цвет выделения при нажатии на мобильных устройствах */
+    color: inherit; /* Inherit text color */
+    text-decoration: none; /* Remove underline */
+    -webkit-tap-highlight-color: transparent; /* Disable highlight color on mobile devices */
 }
 
-/* Отключаем автоформатирование телефонных номеров на iOS */
+/* Disable auto-formatting of phone numbers on iOS */
 html {
-    -webkit-touch-callout: none; /* Отключаем всплывающее меню при долгом нажатии */
+    -webkit-touch-callout: none; /* Disable the popup menu on long press */
 }
-
 
 body {
-    height: calc(var(--vh, 1vh) * 100); /* Высота body с учётом панели браузера */
+    height: calc(var(--vh, 1vh) * 100); /* Body height considering the browser panel */
 
-    user-select: none; /* Для большинства браузеров */
-    -webkit-user-select: none; /* Для Safari */
-    -moz-user-select: none; /* Для Firefox */
-    -ms-user-select: none; /* Для Internet Explorer/Edge */
+    user-select: none; /* For most browsers */
+    -webkit-user-select: none; /* For Safari */
+    -moz-user-select: none; /* For Firefox */
+    -ms-user-select: none; /* For Internet Explorer/Edge */
 
     background-color: #F8FBF8;
     font-family: 'InterDisplay', sans-serif;
-    font-size: 13px; /* Размер текста */
+    font-size: 13px; /* Text size */
     color: #2E2930;
-    /*height: 100vh; /* Высота страницы по высоте браузера */
-    width: 100vw; /* Ширина страницы по ширине браузера */
-    overflow-x: hidden; /* Отключаем горизонтальный скроллинг */
-    -webkit-font-smoothing: antialiased; /* Улучшаем рендеринг шрифта */
-    -moz-osx-font-smoothing: grayscale;  /* Улучшаем рендеринг шрифта в macOS */
+    /* height: 100vh; /* Page height according to browser height */
+    width: 100vw; /* Page width according to browser width */
+    overflow-x: hidden; /* Disable horizontal scrolling */
+    -webkit-font-smoothing: antialiased; /* Improve font rendering */
+    -moz-osx-font-smoothing: grayscale;  /* Improve font rendering in macOS */
 }
 
 header {
     color: #F8FBF8;
-    position: fixed; /* Абсолютная позиция для хедера */
+    position: fixed; /* Absolute position for the header */
     top: 0;
     left: 0;
-    width: 100%; /* Хедер занимает всю ширину экрана */
-    z-index: 10; /* Хедер будет выше всех остальных элементов */
+    width: 100%; /* Header occupies the full width of the screen */
+    z-index: 10; /* Header will be above all other elements */
     display: flex;
-    align-items: flex-start; /* Выравнивание по верхнему краю */
+    align-items: flex-start; /* Align to the top edge */
     mix-blend-mode: difference;
 }
 
 .header-left, .header-center, .header-right {
-    flex: 1; /* Каждый div занимает равное пространство */
-    padding: 10px; /* Добавляем небольшой внутренний отступ для элементов */
-    white-space: nowrap; /* Запрет переноса текста на другую строку */
+    flex: 1; /* Each div takes equal space */
+    padding: 10px; /* Add a small inner padding for elements */
+    white-space: nowrap; /* Prevent text from wrapping to another line */
     mix-blend-mode: difference;
 }
 
 .header-left a, .header-right a, .header-center a {
-    color: inherit; /* Наследуем цвет от родительского элемента */
-    text-decoration: none; /* Убираем подчеркивание */
+    color: inherit; /* Inherit color from the parent element */
+    text-decoration: none; /* Remove underline */
 }
-
-
 
 .header-left {
     display: flex;
-    justify-content: flex-start; /* Прижимаем содержимое к левому краю */
-    text-align: left; /* Текст выравнивается по левому краю */
+    justify-content: flex-start; /* Align content to the left edge */
+    text-align: left; /* Text is aligned to the left */
 }
 
 .header-center {
     display: flex;
-    flex-direction: column; /* Выравнивание текста по вертикали */
-    align-items: center; /* Центрирование текста */
+    flex-direction: column; /* Align text vertically */
+    align-items: center; /* Center text */
 }
 
 .header-right {
     display: flex;
-    justify-content: flex-end; /* Прижимаем содержимое к правому краю */
-    text-align: right; /* Текст выравнивается по правому краю */
+    justify-content: flex-end; /* Align content to the right edge */
+    text-align: right; /* Text is aligned to the right */
 }
 
 .header-center p {
-    margin: 0; /* Отступ между текстовыми блоками в 0 пикселей */
+    margin: 0; /* Margin between text blocks is 0 pixels */
 }
 
 .image-container {
     display: flex;
-    justify-content: center; /* Центрирование по ширине */
-    align-items: center; /* Центрирование по высоте */
-    height: 100%; /* Высота контейнера по высоте браузера */
-    width: 100%; /* Ширина контейнера по ширине браузера */
-    position: fixed; /* Используем фиксированное позиционирование, чтобы контейнер не сдвигался */
-    top: 0; /* Устанавливаем в верхнюю часть окна */
-    left: 0; /* Устанавливаем в левую часть окна */
+    justify-content: center; /* Centering horizontally */
+    align-items: center; /* Centering vertically */
+    height: 100%; /* Container height according to browser height */
+    width: 100%; /* Container width according to browser width */
+    position: fixed; /* Use fixed positioning so the container doesn't shift */
+    top: 0; /* Position at the top of the window */
+    left: 0; /* Position at the left of the window */
     padding: 10px;
-    pointer-events: none; /* Игнорируем события мыши для контейнера */
+    pointer-events: none; /* Ignore mouse events for the container */
     overflow: hidden;
 }
 
 .image-container img {
     display: block;
     position: absolute;
-    max-width: 100px; /* Максимальная ширина изображения */
-    max-height: 100px; /* Максимальная высота изображения */
-    transform: translate(-50%, -50%); /* Центрируем по X и Y */
-    display: block; /* Убираем лишние пробелы под изображением */
-    pointer-events: none; /* Разрешаем взаимодействие с изображениями */
+    max-width: 100px; /* Maximum width of the image */
+    max-height: 100px; /* Maximum height of the image */
+    transform: translate(-50%, -50%); /* Center horizontally and vertically */
+    display: block; /* Remove extra spaces below the image */
+    pointer-events: none; /* Allow interaction with images */
 }
 
-/* Добавьте этот CSS для стилизации информации */
+/* Add this CSS to style the information */
 .info-container {
     line-height: 100%;
     display: flex;
-    flex-direction: column; /* Выстраиваем дива в колонку */
-    align-items: center; /* Центрируем контейнер по горизонтали */
-    justify-content: flex-start; /* Центрируем контейнер по вертикали */
+    flex-direction: column; /* Arrange divs in a column */
+    align-items: center; /* Center the container horizontally */
+    justify-content: flex-start; /* Center the container vertically */
     width: 100%;
     height: 100%;
-    padding-top: 200px; /* Отступ сверху в 200px */
+    padding-top: 200px; /* 200px top padding */
 }
 
 @media (max-width: 500px) {
     .info-container {
-        padding-top: 140px; /* Отступ сверху для малых экранов */
+        padding-top: 140px; /* Top padding for small screens */
     }
 }
 
 .info-box {
     display: flex;
-    justify-content: center; /* Центрируем содержимое внутри info-box */
-    width: 100%; /* Устанавливаем ширину 100% для info-box */
-    padding: 20px 0px; /* Отступ между блоками */
+    justify-content: center; /* Center content inside info-box */
+    width: 100%; /* Set width to 100% for info-box */
+    padding: 20px 0px; /* Margin between blocks */
     color: #F8FBF8;
     mix-blend-mode: difference;
 }
 
 .info-box div {
-    margin: 0 5px; /* Отступы по 5px слева и справа */
+    margin: 0 5px; /* 5px margin on the left and right */
 }
 
 .info-left, .info-right {
-    width: 260px; /* Фиксированная ширина 260px для дива */
+    width: 260px; /* Fixed width of 260px for div */
 }
 
 .info-left {
-    text-align: right; /* Выравнивание текста по правому краю */
+    text-align: right; /* Align text to the right */
 }
 
 .info-right {
-    text-align: left; /* Выравнивание текста по левому краю */
+    text-align: left; /* Align text to the left */
 }
 
 #specific-info-right p:nth-child(2) {
-    margin: 5px 0; /* Отступ 5 пикселей сверху и снизу для центрального абзаца */
+    margin: 5px 0; /* 5 pixels margin above and below for the central paragraph */
 }
 
-
 .project-page {
-    cursor: pointer; /* Устанавливаем курсор в виде указателя для страницы проекта */
+    cursor: pointer; /* Set cursor to pointer for the project page */
 }
 
 .project-container {
     cursor: pointer;
     position: relative;
     width: 100%;
-    height: 100%; /* Полная высота экрана */
+    height: 100%; /* Full height of the screen */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -220,17 +214,17 @@ header {
 #project-image {
     max-width: 100%;
     max-height: 100%;
-    object-fit: contain; /* Сохраняет пропорции изображения */
+    object-fit: contain; /* Maintains the aspect ratio of the image */
 }
 
 .navigation {
     position: absolute;
-    bottom: 10px; /* Отступ от нижней части экрана */
+    bottom: 10px; /* Margin from the bottom of the screen */
     width: 100%;
     color: #2E2930;
     display: flex;
     justify-content: space-between;
-    padding: 0 10px; /* Отступы по бокам */
+    padding: 0 10px; /* Side padding */
 }
 
 .nav-button {
@@ -241,11 +235,11 @@ header {
 }
 
 #previous {
-    text-align: left; /* Выравнивает текст влево в предыдущей кнопке */
+    text-align: left; /* Aligns text to the left in the previous button */
 }
 
 #next {
-    text-align: right; /* Выравнивает текст вправо в следующей кнопке */
+    text-align: right; /* Aligns text to the right in the next button */
 }
 
 .image-number {
@@ -256,8 +250,8 @@ header {
 }
 
 img {
-    user-select: none; /* Отключает выделение текста и изображений */
-    -webkit-user-select: none; /* Для Safari */
-    -moz-user-select: none; /* Для Firefox */
-    -ms-user-select: none; /* Для Internet Explorer/Edge */
+    user-select: none; /* Disable selection of text and images */
+    -webkit-user-select: none; /* For Safari */
+    -moz-user-select: none; /* For Firefox */
+    -ms-user-select: none; /* For Internet Explorer/Edge */
 }

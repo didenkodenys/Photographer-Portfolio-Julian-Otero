@@ -1,8 +1,8 @@
-let currentProject = 'kaia'; // Установите нужный проект по умолчанию
-let currentIndex = 0; // Индекс текущего изображения
-let isTouchDevice = false; // Флаг для проверки устройства
+let currentProject = 'kaia'; // Set the desired default project
+let currentIndex = 0; // Index of the current image
+let isTouchDevice = false; // Flag to check for touch device
 
-// Объект для хранения цветов фона для каждого проекта
+// Object to store background colors for each project
 const projectBackgroundColors = {
     'kaia': '#2E2930',
     'lush-foliage': '#000B00',
@@ -11,115 +11,115 @@ const projectBackgroundColors = {
     'aramie-lena': '#2B2B2B'
 };
 
-// Функция для загрузки изображений проекта из HTML
+// Function to load project images from HTML
 function loadProjectImages(project) {
     const galleryImages = document.querySelectorAll(`#image-gallery img[data-project="${project}"]`);
     return Array.from(galleryImages).map(img => img.src);
 }
 
-// Функция для загрузки проекта
+// Function to load the project
 function loadProject(project) {
     currentProject = project;
-    currentIndex = 0; // Сброс индекса при загрузке нового проекта
-    document.body.classList.add('project-page'); // Добавляем класс для страницы проекта
-    changeBackgroundColor(); // Изменяем цвет фона
-    updateImage(); // Обновляем изображение
+    currentIndex = 0; // Reset index when loading a new project
+    document.body.classList.add('project-page'); // Add class for project page
+    changeBackgroundColor(); // Change background color
+    updateImage(); // Update image
 }
 
-// Функция для обновления изображения
+// Function to update the image
 function updateImage() {
     const projectImage = document.getElementById('project-image');
     const images = loadProjectImages(currentProject);
 
     if (images.length > 0) {
-        // Получаем src текущего изображения из массива
+        // Get src of the current image from the array
         const imageSrc = images[currentIndex];
-        projectImage.src = imageSrc; // Устанавливаем новое изображение
-        projectImage.alt = currentProject; // Обновляем alt
+        projectImage.src = imageSrc; // Set the new image
+        projectImage.alt = currentProject; // Update alt text
 
-        // Обновление нумерации изображения
+        // Update image numbering
         const imageNumber = document.getElementById('image-number');
-        imageNumber.textContent = String(currentIndex + 1).padStart(3, '0'); // Форматирование номера (001, 002 и т.д.)
+        imageNumber.textContent = String(currentIndex + 1).padStart(3, '0'); // Format the number (001, 002, etc.)
     }
 }
 
-// Функция для изменения цвета фона
+// Function to change the background color
 function changeBackgroundColor() {
     document.body.style.backgroundColor = projectBackgroundColors[currentProject];
 }
 
-// Функция для показа предыдущего изображения
+// Function to show the previous image
 function showPrevious() {
     const images = loadProjectImages(currentProject);
-    currentIndex = (currentIndex - 1 + images.length) % images.length; // Показать последнее изображение, если текущее первое
+    currentIndex = (currentIndex - 1 + images.length) % images.length; // Show the last image if the current is the first
     updateImage();
 }
 
-// Функция для показа следующего изображения
+// Function to show the next image
 function showNext() {
     const images = loadProjectImages(currentProject);
-    currentIndex = (currentIndex + 1) % images.length; // Вернуться к первому изображению, если текущее последнее
+    currentIndex = (currentIndex + 1) % images.length; // Go back to the first image if the current is the last
     updateImage();
 }
 
-// Обработка кликов и касаний для переключения изображений
+// Handling clicks and touches to switch images
 const handleSwitchImage = (clientX) => {
     const halfWidth = window.innerWidth / 2;
     if (clientX < halfWidth) {
-        showPrevious(); // Если клик/касание по левой части экрана, показать предыдущее изображение
+        showPrevious(); // If clicked/touched on the left side of the screen, show the previous image
     } else {
-        showNext(); // Если клик/касание по правой части экрана, показать следующее изображение
+        showNext(); // If clicked/touched on the right side of the screen, show the next image
     }
 };
 
-// Обработка кликов
+// Handling clicks
 window.addEventListener('click', (e) => {
-    if (isTouchDevice) return; // Если устройство с поддержкой касания, игнорируем клики
-    const isLink = e.target.closest('a'); // Проверяем, является ли целевой элемент ссылкой
+    if (isTouchDevice) return; // If it's a touch device, ignore clicks
+    const isLink = e.target.closest('a'); // Check if the target element is a link
     if (!isLink) {
-        handleSwitchImage(e.clientX); // Обработка нажатий на экран
+        handleSwitchImage(e.clientX); // Handle screen taps
     }
 });
 
-// Обработка касаний
+// Handling touches
 window.addEventListener('touchstart', (e) => {
-    isTouchDevice = true; // Устанавливаем флаг, что устройство поддерживает касание
-    const isLink = e.target.closest('a'); // Проверяем, является ли целевой элемент ссылкой
-    if (isLink) return; // Если это ссылка, отменяем обработку касания
+    isTouchDevice = true; // Set the flag that the device supports touch
+    const isLink = e.target.closest('a'); // Check if the target element is a link
+    if (isLink) return; // If it's a link, cancel touch handling
 
-    const touch = e.touches[0]; // Получаем первое касание
-    handleSwitchImage(touch.clientX); // Обработка касания
+    const touch = e.touches[0]; // Get the first touch
+    handleSwitchImage(touch.clientX); // Handle touch
 });
 
-// Обработчики событий для кнопок "Previous" и "Next"
+// Event handlers for "Previous" and "Next" buttons
 // const previousButton = document.getElementById('previous');
 // const nextButton = document.getElementById('next');
 
 // if (previousButton) {
 //     previousButton.addEventListener('click', (e) => {
-//         e.preventDefault(); // Предотвращаем переход по ссылке
+//         e.preventDefault(); // Prevent the link from being followed
 //         showPrevious();
 //     });
 // }
 
 // if (nextButton) {
 //     nextButton.addEventListener('click', (e) => {
-//         e.preventDefault(); // Предотвращаем переход по ссылке
+//         e.preventDefault(); // Prevent the link from being followed
 //         showNext();
 //     });
 // }
 
-// Обработка параметров URL
+// Handling URL parameters
 const urlParams = new URLSearchParams(window.location.search);
 const projectParam = urlParams.get('project');
 
 if (projectParam && projectBackgroundColors[projectParam]) {
-    loadProject(projectParam); // Загружаем проект из URL
+    loadProject(projectParam); // Load project from URL
 } else {
-    loadProject('kaia'); // Загружаем проект по умолчанию
+    loadProject('kaia'); // Load the default project
 }
 
-// Инициализация проекта при загрузке страницы
+// Initialize the project when the page loads
 window.onload = () => {
-    loadProject(currentProject); // Загрузить проект по умолчанию
+    loadProject(currentProject); // Load the default project
 };

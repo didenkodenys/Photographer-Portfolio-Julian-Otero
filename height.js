@@ -3,8 +3,8 @@ function setFullHeight() {
     document.documentElement.style.setProperty('--vh', `${vh}px`);
 }
 
-// Устанавливаем значение при загрузке страницы
+// Set the value on page load
 setFullHeight();
 
-// Обновляем значение при изменении размера окна
+// Update the value on window resize
 window.addEventListener('resize', setFullHeight);
